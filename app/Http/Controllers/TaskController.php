@@ -5,16 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
-class TaskController extends Controller
-{
+class TaskController extends Controller{
     //
 
     public function index() {
 
-        $tasks = Task::all();
-        // dd($tasks);
+        $tasks = Auth::user()->tasks;
+        // $tasks = Task::all()->where('user_id', Auth::user()->id);
+        // $user = Auth::user();
 
+        // dd($tasks);
+        // dd($user);
         return view('index', ['tasks' => $tasks]);
 
     }
@@ -38,7 +41,7 @@ class TaskController extends Controller
         // dd($request);
 
         Task::create([
-            'user_id' => $request->user_id,
+            'user_id' => Auth::user()->id,
             'title' => $request->title, 
             'detail' => $request->details,
             'priority' => $request->priority

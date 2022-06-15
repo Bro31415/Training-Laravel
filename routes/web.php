@@ -23,7 +23,7 @@ Route::get('/', function () {
 
 Route::get('/', [TaskController::class, 'index'])->name('home')->middleware(['auth']); // pake route gini itu biar ga ribet2 nanti return redirect di taskcontroller.phpnya
 
-Route::prefix('task')->group(function () {
+Route::prefix('task')->middleware(['auth'])->group(function () { // midware bentuknya array, jdi bisa tambah lgi itu
     Route::get('/add', [TaskController::class, 'addTask'])->name('task.add');
     Route::get('/{id}/edit', [TaskController::class, 'editTask'])->name('task.edit');
     Route::post('/create', [TaskController::class, 'createTask'])->name('task.create');
